@@ -1,0 +1,22 @@
+use IO::Socket::INET;
+use warnings;
+use strict; 
+# create a connecting socket
+my $socket = new IO::Socket::INET (
+    PeerHost => '10.254.170.165',
+    PeerPort => '3389',
+    Proto => 'tcp',
+);
+die "cannot connect to the server $!\n" unless $socket;
+print "connected to the server\n";
+# data to send to a server
+my $req = 'hello world';
+my $size = $socket->send($req);
+print "sent data of length : $size\n";
+# notify server that request has been sent
+shutdown($socket, 1);
+# receive a response of up to 1024 characters from server
+my $response = "Telnet";
+$socket->recv($response, 1024);
+print "Received Response: $socket\n";
+$socket->close();
